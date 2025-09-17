@@ -12,7 +12,7 @@ class BookingList(View):
     def get(self, request):
         query = request.GET
 
-        bookings = Booking.objects.filter(start_time__gt=timezone.localtime()).order_by("start_time")
+        bookings = Booking.objects.order_by("start_time")
 
         if query.get("search"):
             bookings = bookings.filter(
