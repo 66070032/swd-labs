@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking List</title>
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+    >
+</head>
+<body>
+    <section class="section">
+        <h1 class="title" id="title">Booking List</h1>
+    </section>
+    <div class="container">
+        <form action="{% url 'booking-list' %}">
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                    <div class="columns">
+                        <div class="column">
+                            <input class="input" type="text" name="search" placeholder="Search room name / staff name">
+                        </div>
+                        <div class="column">
+                            <input class="button" type="submit" value="Search">
+                            <a class="button is-success" href="{% url 'booking-create' %}">Add New Booking</a>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </form>
+        <br/>
+        <table class="table" id="datatable">
+            <thead>
+                <tr>
+                    <th>Room</th>
+                    <th>Staff</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Purpose</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings%}
+                <tr>
+                    <td>{{booking.room.name}}</td>
+                    <td>{{booking.staff.name}}</td>
+                    <td>{{booking.start_time|date}}</td>
+                    <td>{{booking.start_time|time:"H:i"}} - {{booking.end_time|time:"H:i"}}</td>
+                    <td>{{booking.purpose}}</td>
+                    <td><a class="button is-warning" href="{% url 'booking-delete' booking.id %}">Cancel Room</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

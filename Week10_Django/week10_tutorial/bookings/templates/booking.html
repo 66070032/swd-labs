@@ -1,0 +1,91 @@
+<!-- booking.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Booking</title>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+        >
+</head>
+<body>
+    <section class="section">
+        <h1 class="title" id="title">Add New Booking</h1>
+    </section>
+    <div class="container pl-5">
+        {{ form.non_field_errors }}
+        <form action="{% url 'booking-create' %}" method="POST">
+            {% csrf_token %}
+            <div class="field">
+                {{ form.room.errors }}
+                <label class="label" for="{{ form.room.id_for_label }}">Room to book</label>
+                <div class="control">
+                    <div class="select">
+                        {{ form.room }}
+                    </div>
+                </div>
+                </div>
+
+            <div class="field">
+                {{ form.staff.errors }}
+                <label class="label" for="{{ form.staff.id_for_label }}">Booked for</label>
+                <div class="control">
+                    <div class="select">
+                        {{form.staff}}
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                {{ form.email.errors }}
+                <label class="label" for="{{ form.email.id_for_label }}">Email</label>
+                <div class="control">
+                    {{form.email}}
+                </div>
+            </div>
+            <div class="field">
+                {{ form.purpose.errors }}
+                <label class="label" for="{{ form.purpose.id_for_label }}">Purpose</label>
+                <div class="control">
+                    {{form.purpose}}
+                </div>
+            </div>
+            <div class="field">
+                {{ form.start_time.errors }}
+                <label class="label" for="{{ form.start_time.id_for_label }}">Start time</label>
+                <div class="control">
+                    <div class="columns">
+                        <div class="column">
+                            {{ form.start_time }}
+                        </div>
+                        <div class="column"></div>
+                      </div>
+                </div>
+            </div>
+            <div class="field">
+                {{ form.end_time.errors }}
+                <label class="label" for="{{ form.end_time.id_for_label }}">End time</label>
+                <div class="control">
+                    <div class="columns">
+                        <div class="column">
+                            {{ form.end_time }}
+                        </div>
+                        <div class="column"></div>
+                        <div class="column"></div>
+                      </div>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <input type="submit" class="button is-link">
+                </div>
+                <div class="control">
+                    <a class="button is-danger" href="{% url 'booking-list' %}">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
