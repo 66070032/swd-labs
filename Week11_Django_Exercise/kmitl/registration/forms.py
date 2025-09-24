@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, FileInput
 from django.core.exceptions import ValidationError
 from .models import Faculty, Section, Student, StudentProfile, Course
 
@@ -55,7 +55,7 @@ class StudentProfileForm(ModelForm):
             "image"
         ]
         widgets = {
-            "image": forms.ClearableFileInput(attrs={"class": "sr-only"}),
+            "image": FileInput(attrs={"class": "sr-only"})
         }
 
     def clean_email(self):
