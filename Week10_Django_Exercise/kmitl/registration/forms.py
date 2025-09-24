@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
-from .models import Faculty, Section, Student, StudentProfile
+from .models import Faculty, Section, Student, StudentProfile, Course
 
 """ class StudentForm(forms.Form):
     student_id = forms.CharField(max_length=10)
@@ -61,3 +61,32 @@ class StudentProfileForm(ModelForm):
             raise ValidationError("Email must end with @kmitl.ac.th")
         
         return email
+    
+class CourseForm(ModelForm):
+    class Meta:
+        model = Course
+        fields = "__all__"
+
+class SectionForm(ModelForm):
+    class Meta:
+        model = Section
+        fields = "__all__"
+        exclude = ["course"]
+        widgets = {
+            'start_time': forms.TimeInput(attrs={'type': 'time'}),
+            'end_time': forms.TimeInput(attrs={'type': 'time'}),
+        }
+
+    
+
+    def clean(self):
+        clean_data = super().clean()
+        start_time = clean_data.get("start_time")
+        end_time = clean_data.get("end_time")
+        capacity = clean_data.get("capacity")
+
+        if start_time and end_time and end_time < start_time:
+            self.add_error("end_time", "End time must be after start time")
+        if capacity is not None and capacity <= 20:
+            self.add_error("capacity", "Capacity must be over 20")
+        return clean_data

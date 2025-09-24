@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from registration.models import *
 from django.db.models import Count, Q, F, Value
 from django.db.models.functions import Concat
-from registration.forms import StudentForm, StudentProfileForm
+from registration.forms import StudentForm, StudentProfileForm, CourseForm, SectionForm
 
 # Create your views here.
 def student_list(request):
@@ -120,3 +120,44 @@ def update_student(request, student_id):
         p_form = StudentProfileForm(instance=profile)
 
     return render(request, "update_student.html", {"s_form": s_form, "p_form": p_form, "student_id": student_id})
+
+def create_course(request):
+    if request.method == "POST":
+        c_form = CourseForm(request.POST)
+        s_form = SectionForm(request.POST)
+        if c_form.is_valid() and s_form.is_valid():
+            course = c_form.save()
+            section = s_form.save(commit=False)
+            section.course = course
+            section.save()
+            return redirect('course_list')
+    else:
+        # method get
+        c_form = CourseForm()
+        s_form = SectionForm()
+    return render(request, "create_course.html", { "cform": c_form, "sform": s_form })
+
+def update_course(request, course_code):
+    crs = Course.objects.get(course_code = course_code)
+    sec = Section.objects.filter(course = crs).first()
+    
+    if request.method == "POST":
+        course_form = CourseForm(request.POST, instance=crs)
+        section_form = SectionForm(request.POST, instance=sec)
+        if course_form.is_valid() and section_form.is_valid():
+            course = course_form.save()
+            section = section_form.save(commit=False)
+            section.course = course
+            section.save()
+            return redirect('course_list')
+        else:
+            print(course_form.errors)
+            print(section_form.errors)
+    else:
+        course_form = CourseForm(instance=crs)
+        section_form = SectionForm(instance=sec)
+    return render(request, "update_course.html", {
+        "cform": course_form,
+        "sform": section_form,
+        "course": crs
+    })
