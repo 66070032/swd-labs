@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Create Course</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body class="bg-white text-gray-800">
+        {% include 'nav.html' %}
+
+        <main class="p-6 max-w-3xl mx-auto">
+            <h1 class="text-3xl font-bold text-orange-500 mb-6">Create New
+                Course</h1>
+
+            <form method="post" class="space-y-6" action="{% url 'update_course' course.course_code %}">
+                {% csrf_token %}
+
+                <!-- Course Info -->
+                <div class="space-y-4 border p-4 rounded-md shadow-sm">
+                    <h2 class="text-xl font-semibold text-gray-700">Course Information</h2>
+                    <div class="border rounded-md p-4 mb-4 bg-orange-50">
+                        <div>
+                            <label for="{{ cform.course_code.id_for_label }}" class="block text-sm font-medium text-gray-700">Course code</label>
+                            {{ cform.course_code }}
+                        </div>
+    
+                        <div>
+                            <label for="{{ cform.course_name.id_for_label }}" class="block text-sm font-medium text-gray-700">Course name</label>
+                            {{ cform.course_name}}
+                        </div>
+    
+                        <div>
+                            <label
+                                for="{{ cform.credits.id_for_label }}"
+                                class="block text-sm font-medium text-gray-700">Credits</label>
+                            {{ cform.credits }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Info -->
+                <div class="space-y-4 border p-4 rounded-md shadow-sm">
+                    <h2 class="text-xl font-semibold text-gray-700">Section Information</h2>
+                    <div class="border rounded-md p-4 mb-4 bg-orange-50">
+                        <div>
+                            <label for="{{ sform.section_number.id_for_label }}" class="block text-sm font-medium text-gray-700">Section number</label>
+                            {{ sform.section_number }}
+                        </div>
+
+                        <div>
+                            <label for="{{ sform.semester.id_for_label }}" class="block text-sm font-medium text-gray-700">Semester</label>
+                            {{ sform.semester }}
+                        </div>
+
+                        <div>
+                            <label
+                                for="{{ sform.professor.id_for_label }}"
+                                class="block text-sm font-medium text-gray-700">Professor</label>
+                            {{ sform.professor }}
+                        </div>
+
+                        <div>
+                            <label
+                                for="{{ sform.day_of_week.id_for_label }}"
+                                class="block text-sm font-medium text-gray-700">Day of week</label>
+                            {{ sform.day_of_week }}
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="{{ sform.start_time.id_for_label }}" class="block text-sm font-medium text-gray-700">Start time</label>
+                                {{ sform.start_time }}
+                            </div>
+                            <div>
+                                <label
+                                    for="{{ sform.end_time.id_for_label }}"
+                                    class="block text-sm font-medium text-gray-700">End time</label>
+                                {{ sform.end_time }}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                for="{{ sform.capacity.id_for_label }}"
+                                class="block text-sm font-medium text-gray-700">Capacity</label>
+                            {{ sform.capacity }}
+                        </div>
+                        {% if sform.errors %}
+                        <div class="text-red-500 p-2">
+                            {{ sform.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-md">
+                    Save
+                </button>
+            </form>
+        </main>
+    </body>
+</html>
